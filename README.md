@@ -10,9 +10,14 @@ npm i ng-spring-boot
 
 ## Usage
 
-Currently, this library supports GET with Spring Boot pagination.
+Supported Operations:
 
+* GET with pagination
+* POST a new resource and read the location-header and new resource-id
+ 
 ### Example
+
+#### GET with pagination
 
 Spring Boot Rest-Controller (CustomerService.java):
 ```Java
@@ -82,4 +87,60 @@ customer-list.component.html:
   </ul>
 </div>
 ```
- 
+
+#### POST a new resource
+
+Spring Boot Rest-Controller (CustomerService.java):
+```Java
+@RestController
+@RequestMapping("/customers")
+@CrossOrigin(origins = "*")
+public class CustomerService {
+
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity addCustomers(@RequestBody Customer customer) {
+        Integer newCustomerId = customerRepository.saveAndFlush(customer).getId();
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .header("Location", recipeId + "/customers/" + newCustomerId)
+                .build();
+    }
+}
+```
+
+To enable the Location header with CORS, you need additional configuration:
+
+```Java
+@Configuration
+public class WebConfig{
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("*")
+                        .allowedMethods("PUT", "POST", "DELETE")
+                        .allowedHeaders("Location", "Content-Type")
+                        .exposedHeaders("Location", "Content-Type");
+            }
+        };
+    }
+}
+```
+
+Usage (customer.service.ts)
+
+```Typescript
+  saveCustomer(customer: Customer): Observable<number> {
+    return super.postResource('http://localhost:8080/customers', customer).pipe(
+      switchMap(r => {
+        return of(+r.id);
+      })
+    );
+  }
+```
