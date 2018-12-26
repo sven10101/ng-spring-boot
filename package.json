@@ -1,0 +1,17 @@
+{
+  "name": "ng-spring-boot",
+  "version": "0.0.10",
+  "author": "Sven Stieber",
+  "license": "MIT",
+  "description": "Integrate Spring Boot Rest services to your Angular App.",
+  "keywords": ["Angular", "Spring Boot", "Rest"],
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/sven10101/ng-spring-boot"
+  },
+  "peerDependencies": {
+    "@angular/common": "^7.1.0",
+    "@angular/core": "^7.1.0",
+    "rxjs": "~6.3.3"
+  }
+}
