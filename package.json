@@ -1,17 +1,27 @@
 {
   "name": "ng-spring-boot",
-  "version": "0.0.10",
+  "version": "14.1.1",
   "author": "Sven Stieber",
   "license": "MIT",
   "description": "Integrate Spring Boot Rest services to your Angular App.",
-  "keywords": ["Angular", "Spring Boot", "Rest"],
+  "keywords": [
+    "Angular",
+    "Spring Boot",
+    "Rest"
+  ],
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/sven10101/ng-spring-boot"
+    "type": "git",
+    "url": "https://github.com/sven10101/ng-spring-boot"
   },
   "peerDependencies": {
     "@angular/common": "^14.1.1",
     "@angular/core": "^14.1.1",
     "rxjs": "~7.5.0"
+  },
+  "scripts": {
+    "build": "ng-packagr -p ng-package.json"
+  },
+  "devDependencies": {
+    "ng-packagr": "^14.1.0"
   }
 }
